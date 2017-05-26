@@ -25,7 +25,11 @@ function getFormDataByCondition(form,conditionFn){
                     if(!result[ele[j].name]&&conditionFn(ele[j])){
                         result[ele[j].name]=[];
                     }
-                    if(ele[j].checked&&conditionFn(ele[j])){
+                    if(ele[j].type==="checkbox"||ele[j].type==="radio"){
+                        if(ele[j].checked&&conditionFn(ele[j])){
+                            result[ele[j].name].push(ele[j].value);
+                        }
+                    }else if(conditionFn(ele[j])){
                         result[ele[j].name].push(ele[j].value);
                     }
                 }
@@ -36,7 +40,11 @@ function getFormDataByCondition(form,conditionFn){
                 if(!result[ele[k].name]&&conditionFn(ele[k])){
                     result[ele[k].name]=[];
                 }
-                if(ele[k].checked&&conditionFn(ele[k])){
+                if(ele[k].type==="checkbox"||ele[k].type==="radio"){
+                    if(ele[k].checked&&conditionFn(ele[k])){
+                        result[ele[k].name].push(ele[k].value);
+                    }
+                }else if(conditionFn(ele[k])){
                     result[ele[k].name].push(ele[k].value);
                 }
             }
