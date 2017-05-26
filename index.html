@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .hidden{
+            display: none;
+        }
+    </style>
+    <!--jquery只是示例中用到了,该插件不依赖于jquery-->
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="getFormDataByCondition.js"></script>
+</head>
+<body>
+<form id="form">
+    <label>
+        <label>用户名</label>
+        <input name="username" value="wangqiong">
+    </label>
+    <label>
+        <label>密码</label>
+        <input name="password" value="123456" type="hidden">
+    </label>
+    <label>
+        <label>爱好</label>
+        <input type="checkbox" name="hobby" value="1">
+        <input type="checkbox" name="hobby" value="2" checked>
+        <input type="checkbox" name="hobby" value="3">
+    </label>
+    <label>
+        <label>性别</label>
+        <input type="radio" name="sex" value="0" >
+        <input type="radio" name="sex" value="1" checked>
+    </label>
+    <label>
+        <label>长相</label>
+        <input type="radio" name="face" value="0">
+        <input type="radio" name="face" value="1" checked>
+    </label>
+    <label>
+        <label>简述</label>
+        <textarea name="desc" style="display: none">简述</textarea>
+    </label>
+    <label>
+        <label>成绩</label>
+        <select name="cost">
+            <option>1</option>
+            <option selected>2</option>
+            <option>3</option>
+        </select>
+    </label>
+    <input type="submit">
+</form>
+<script>
+    document.querySelector("#form").addEventListener("submit",function(e){
+        e.preventDefault();
+        var params=getFormDataByCondition(this,function (ele) {
+            return !$(ele).is(":hidden");
+        });
+        console.log(params);
+    })
+</script>
+</body>
+</html>
