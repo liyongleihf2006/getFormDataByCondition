@@ -9,48 +9,22 @@
  *
  */
 function getFormDataByCondition(form,conditionFn){
-    var result={},
-        elements=form.elements,
-        eles=[];
-    for(var i in elements){
-        if(isNaN(i)&&elements.hasOwnProperty(i)){
-            eles.push(elements[i]);
+    var result={};
+    form.querySelectorAll("[name]").forEach(function(field){
+        if(!result[field.name]&&conditionFn(field)){
+            result[field.name]=[];
         }
-    }
-    eles.forEach(function (ele) {
-        /*RadioNodeList是非ie浏览器拥有的类,采用非ie浏览器的方式获取单选框复选框的值*/
-        if(window.RadioNodeList&&ele instanceof window.RadioNodeList){
-            for(var j in ele){
-                if(ele.hasOwnProperty(j)){
-                    if(!result[ele[j].name]&&conditionFn(ele[j])){
-                        result[ele[j].name]=[];
-                    }
-                    if(ele[j].type==="checkbox"||ele[j].type==="radio"){
-                        if(ele[j].checked&&conditionFn(ele[j])){
-                            result[ele[j].name].push(ele[j].value);
-                        }
-                    }else if(conditionFn(ele[j])){
-                        result[ele[j].name].push(ele[j].value);
-                    }
+        switch (field.type){
+            case "checkbox":;
+            case "radio":{
+                if(field.checked&&conditionFn(field)){
+                    result[field.name].push(field.value);
                 }
-            }
-         /*HTMLCollection是ie浏览器的类,采用ie浏览器的方式获取*/
-        }else if(window.HTMLCollection&&ele instanceof window.HTMLCollection){
-            for(var k=0;k<ele.length;k++){
-                if(!result[ele[k].name]&&conditionFn(ele[k])){
-                    result[ele[k].name]=[];
+            };break;
+            default :{
+                if(conditionFn(field)){
+                    result[field.name].push(field.value);
                 }
-                if(ele[k].type==="checkbox"||ele[k].type==="radio"){
-                    if(ele[k].checked&&conditionFn(ele[k])){
-                        result[ele[k].name].push(ele[k].value);
-                    }
-                }else if(conditionFn(ele[k])){
-                    result[ele[k].name].push(ele[k].value);
-                }
-            }
-        }else{
-            if(ele.name&&conditionFn(ele)){
-                result[ele.name]=[ele.value];
             }
         }
     });
