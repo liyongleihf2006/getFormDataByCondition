@@ -10,7 +10,7 @@
  */
 function getFormDataByCondition(form,conditionFn){
     var result={};
-    form.querySelectorAll("[name]").forEach(function(field){
+    [].forEach.call(form.querySelectorAll("[name]"),function(field){
         if(!result[field.name]&&conditionFn(field)){
             result[field.name]=[];
         }
